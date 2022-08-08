@@ -1,7 +1,6 @@
 import { ConflictException, HttpStatus, Inject, Logger } from "@nestjs/common";
 import { EmptyResponseDTO, SuccessResponseDTO } from "src/common/dto";
 import respondWith from "src/common/helpers/respondWith";
-import { BcryptHelpers } from "src/common/utilities";
 import { AuthRepository } from "./contracts";
 import * as DTOs from "./dto"
 import { UserDocument } from "./types";
