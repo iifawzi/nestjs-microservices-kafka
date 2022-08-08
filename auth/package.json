@@ -31,6 +31,7 @@
     "express-basic-auth": "^1.2.1",
     "helmet": "^5.1.1",
     "joi": "^17.6.0",
+    "mongodb": "^4.8.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
