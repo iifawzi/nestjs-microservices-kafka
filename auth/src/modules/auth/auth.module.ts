@@ -1,5 +1,6 @@
 import { Logger, Module } from "@nestjs/common";
 import { DatabaseModule } from "../database/mongodb";
+import AuthMongoDBRepository from "../database/mongodb/repositories/auth.repository";
 import AuthController from "./auth.controller";
 import AuthService from "./auth.service";
 
@@ -8,11 +9,16 @@ import AuthService from "./auth.service";
     controllers: [AuthController],
     providers: [AuthService, {
         provide: 'AuthLogger',
-        useFactory: (): Logger => {
-            return new Logger(AuthModule.name)
-        }
-    }],
-    exports: ['AuthLogger']
+        useFactory: (): Logger => new Logger(AuthModule.name)
+    },
+    {
+
+        provide: 'AuthRepository',
+        useClass: AuthMongoDBRepository
+    }
+
+],
+    exports: ['AuthLogger', 'AuthRepository']
 })
 export default class AuthModule {
 
