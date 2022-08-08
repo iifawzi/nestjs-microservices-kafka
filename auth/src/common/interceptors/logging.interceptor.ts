@@ -29,7 +29,6 @@ export default class LoggingInterceptor implements NestInterceptor {
 
             catchError((error) => {
                 const delay = Date.now() - now;
-                this.logger.error(error.message, error.stack);
                 this.logger.verbose(`THE ${id} REQUEST HAS ENDEED [${method}] ${originalUrl} - ${delay}ms`);
                 return throwError(() => new Error(error));
             }),
