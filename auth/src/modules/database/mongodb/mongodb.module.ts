@@ -1,14 +1,16 @@
 import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { MongoClient, Db } from 'mongodb';
 
 @Module({
     providers: [
         {
             provide: 'DatabaseClient',
-            useFactory: async (): Promise<Db> => {
+            inject: [ConfigService],
+            useFactory: async (configService: ConfigService): Promise<Db> => {
                 try {
-                    const client = await MongoClient.connect('mongodb://127.0.0.1');
-                    return client.db('mydb');
+                    const client = await MongoClient.connect(configService.get<string>('mongodbURI'));
+                    return client.db(configService.get<string>('dbname'));
                 } catch (e) {
                     throw e;
                 }

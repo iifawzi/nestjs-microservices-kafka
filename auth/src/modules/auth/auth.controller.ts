@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Get } from "@nestjs/common";
+import { Body, Controller, HttpStatus, Post } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { EmptyResponseDTO, SuccessResponseDTO } from "src/common/dto";
 import { UseDynamicResponse } from "src/common/interceptors";
@@ -14,7 +14,7 @@ export default class AuthController {
         private readonly authService: AuthService
     ) { }
 
-    @Get('signup')
+    @Post('signup')
     @DescribeAPI('User registration API')
     @UseDynamicResponse()
     @DocuementSuccessResponse(HttpStatus.CREATED, 'Created Successfully')

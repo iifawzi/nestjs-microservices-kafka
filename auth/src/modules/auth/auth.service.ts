@@ -10,6 +10,6 @@ export default class AuthService {
     ) { }
 
     async signup({ email, password, passwordConfirmation }: DTOs.SignupBody): Promise<SuccessResponseDTO<EmptyResponseDTO>> {
-       // tood
+       // TODO
     }
 }
