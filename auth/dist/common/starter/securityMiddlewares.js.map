@@ -1,0 +1,1 @@
+{"version":3,"file":"securityMiddlewares.js","sourceRoot":"","sources":["../../../src/common/starter/securityMiddlewares.ts"],"names":[],"mappings":";;AAAA,mCAA4B;AAE5B,MAAM,mBAAmB,GAAG,CAAC,GAA2B,EAAE,EAAE;IAC1D,GAAG,CAAC,GAAG,CAAC,IAAA,gBAAM,GAAE,CAAC,CAAC;AACpB,CAAC,CAAC;AAEF,kBAAe,mBAAmB,CAAC"}

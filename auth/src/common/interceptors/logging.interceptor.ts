@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export default class LoggingInterceptor implements NestInterceptor {
-    private readonly logger = new Logger('HTTP LOGGER');
+    constructor(private readonly logger: Logger) { }
     intercept(context: ExecutionContext, handler: CallHandler): Observable<any> {
 
         const id = uuidv4()
