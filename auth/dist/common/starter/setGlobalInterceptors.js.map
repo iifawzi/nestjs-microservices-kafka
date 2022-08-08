@@ -1,1 +1,0 @@
-{"version":3,"file":"setGlobalInterceptors.js","sourceRoot":"","sources":["../../../src/common/starter/setGlobalInterceptors.ts"],"names":[],"mappings":";;AAAA,2CAA0D;AAC1D,kDAA6D;AAE7D,MAAM,qBAAqB,GAAG,CAAC,GAAqB,EAAE,EAAE;IACtD,OAAO,GAAG,CAAC,qBAAqB,CAC9B,IAAI,iCAAkB,CAAE,IAAI,eAAM,CAAC,MAAM,CAAC,CAAC,CAC5C,CAAC;AACJ,CAAC,CAAC;AAEF,kBAAe,qBAAqB,CAAC"}
