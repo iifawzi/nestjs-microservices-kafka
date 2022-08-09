@@ -5,4 +5,5 @@ export interface UserInfoI {
     verificationCode: string
 }
 
-export type UserDocument = Omit<SignupBody, 'passwordConfirmation'> & { isVerified: boolean, activationCode: string }
+export type UserRegisterInfo = Omit<SignupBody, 'passwordConfirmation'>;
+export type UserDocument = UserRegisterInfo & { isVerified: boolean, activationCode: string };

@@ -1,0 +1,1 @@
+export { default as LoggerMock } from "./logger.mock"
