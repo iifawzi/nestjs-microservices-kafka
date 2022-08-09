@@ -7,7 +7,6 @@ export const DocuementSuccessResponse = <TModel extends Type<any>>(statusCode: n
     return applyDecorators(
         // Since the model is not referenced as Body at any controller, swagger need to know that it exists: 
         ApiExtraModels(model),
-  
         ApiResponse({
             status: statusCode,
             schema: {
@@ -22,7 +21,7 @@ export const DocuementSuccessResponse = <TModel extends Type<any>>(statusCode: n
                         type: 'string',
                         example: message,
                     },
-                    data: model,
+                    data: { $ref: getSchemaPath(model) }
                 },
             },
         }),
