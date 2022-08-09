@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MongoClient, Db } from 'mongodb';
+import UsersSchema from './schemas/users.schema';
 
 @Module({
     providers: [
@@ -16,6 +17,7 @@ import { MongoClient, Db } from 'mongodb';
                 }
             }
         },
+        UsersSchema
     ],
     exports: ['DatabaseClient']
 })

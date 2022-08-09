@@ -1,0 +1,1 @@
+export { default as UserSchema } from "./users.schema"
