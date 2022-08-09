@@ -7,9 +7,26 @@ import AuthService from "./auth.service";
 import { LocalStrategy } from "./passport/strategies";
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from "@nestjs/config";
+import { ClientsModule, Transport } from "@nestjs/microservices";
 
 @Module({
-    imports: [DatabaseModule,
+    imports: [
+        DatabaseModule,
+        ClientsModule.register([
+            {
+                name: 'MAIL_SERVICE',
+                transport: Transport.KAFKA,
+                options: {
+                    client: {
+                        clientId: 'auth',
+                        brokers: ['localhost:9092'],
+                    },
+                    consumer: {
+                        groupId: 'mail-consumer'
+                    }
+                }
+            }
+        ]),
         JwtModule.registerAsync({
             inject: [ConfigService],
             useFactory: async (configService: ConfigService) => ({
@@ -34,7 +51,7 @@ import { ConfigService } from "@nestjs/config";
         {
             provide: 'bcryptHelpers',
             useClass: BcryptHelpers
-        }
+        },
     ],
     exports: ['AuthLogger', 'AuthRepository', 'bcryptHelpers']
 })

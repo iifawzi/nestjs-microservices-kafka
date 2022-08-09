@@ -17,3 +17,28 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
     ports:
       - '27017:27017'
+  zookeeper:
+    image: confluentinc/cp-zookeeper
+    container_name: zookeeper
+    ports:
+      - 2181:2181
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+  kafka:
+    image: confluentinc/cp-kafka
+    container_name: kafka
+    ports:
+      - 9092:9092
+    env_file:
+      - docker.env
+  # Kafka-ui is used for debugging and previewing the state of the broker. 
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    container_name: kafka-ui
+    ports:
+      - "8080:8080"
+    restart: always
+    environment:
+      - KAFKA_CLUSTERS_0_NAME=local
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:29092
+      - KAFKA_CLUSTERS_0_ZOOKEEPER=localhost:2181
