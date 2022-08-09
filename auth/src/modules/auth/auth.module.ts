@@ -35,7 +35,8 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
                     expiresIn: `${configService.get<string>('jwt.expire')}`,
                 },
             }),
-        }),],
+        })],
+
     controllers: [AuthController],
     providers: [
         AuthService,
