@@ -1,3 +1,4 @@
+import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
 import { LoggerMock } from 'src/common/mocks';
 import { BcryptHelpers } from 'src/common/utilities';
@@ -21,7 +22,8 @@ describe('AuthService', () => {
         {
           provide: 'bcryptHelpers',
           useClass: BcryptHelpers
-        }
+        },
+        JwtService
       ],
     }).compile();
 
@@ -45,4 +47,29 @@ describe('AuthService', () => {
     })
   })
 
+  describe('ValidateUser Service', () => {
+    it('Should return false if email is not registered', async () => {
+      const validateUser = await service.validateUser('notRegistered@gmail.com', '123Weaszx');
+      expect(validateUser).toEqual(false);
+    })
+
+    it('Should return false if password is not correct', async () => {
+      const validateUser = await service.validateUser('iifawzie@gmail.com', '123Weaszx');
+      expect(validateUser).toEqual(false);
+    })
+
+    it('Should return the user data if found and password is correct', async () => {
+      jest.spyOn(AuthMockRepository.prototype, 'findByEmail').mockRestore()
+      const validateUser = await service.validateUser('iifawzie@gmail.com', '12Qwaszxerdfcv');
+      expect(validateUser).toEqual({ "email": "iifawzie@gmail.com", "isVerified": false });
+    })
+  })
+
+  describe('Signin Service', () => {
+    it('Should return the accessToken with user info ', async () => {
+      jest.spyOn(AuthService.prototype, 'createAccessToken').mockReturnValue('token');
+      const signin = await service.signin({ email: 'iifawzie@gmail.com', isVerified: true });
+      expect(signin.data).toEqual({ email: 'iifawzie@gmail.com', isVerified: true, accessToken: 'token' });
+    })
+  })
 });

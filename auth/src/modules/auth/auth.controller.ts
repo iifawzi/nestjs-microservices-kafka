@@ -7,7 +7,6 @@ import { DescribeAPI, DocuementErrorResponse, DocuementSuccessResponse } from "s
 import AuthService from "./auth.service";
 import * as DTOs from "./dto"
 import { useLocalAuth } from "./passport/guards";
-import { UserInfoI, UserInfoWithoutPassword } from "./types";
 
 @ApiTags('Auth')
 @Controller({ version: '1', path: '/auth' })
