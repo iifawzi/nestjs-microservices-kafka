@@ -9,7 +9,6 @@ export default class UsersSchema {
         this.create();
     }
 
-
     private async create() {
         let isCollectionExists = true;
         await this.databaseClient.listCollections().toArray((_, collections) => {
@@ -33,7 +32,7 @@ export default class UsersSchema {
                                 description: "password must be a string and is required"
                             },
                             isVerified: {
-                                bsonType: "string",
+                                bsonType: "boolean",
                                 description: "isVerified must be a boolean and is required"
                             },
                             verificationCode: {

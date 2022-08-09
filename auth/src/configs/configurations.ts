@@ -11,5 +11,12 @@ export default () => ({
    Database
    ***********************************/
   MONGODB_URI: process.env.mongodbURI,
-  DB_NAME: process.env.dbname
+  DB_NAME: process.env.dbname,
+  /**********************************
+   JWT
+   ***********************************/
+  jwt: {
+    secret: process.env.JWT_SECRET,
+    expire: process.env.JWT_EXPIRE,
+  }
 });

@@ -14,6 +14,12 @@ const configsSchema = Joi.object({
    ***********************************/
   mongodbURI: Joi.string().required(),
   dbname: Joi.string().required(),
+  /**********************************
+   JWT
+   ***********************************/
+  JWT_SECRET: Joi.string().required(),
+  JWT_EXPIRE: Joi.number().required(),
+
 
 });
 

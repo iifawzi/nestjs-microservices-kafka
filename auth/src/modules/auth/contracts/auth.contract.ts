@@ -1,4 +1,4 @@
-import { UserDocument } from "../types"
+import { UserDocument, UserInfoI } from "../types"
 
 export default interface AuthRepository {
     findByEmail(email: string): Promise<any>

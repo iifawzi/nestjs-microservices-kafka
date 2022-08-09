@@ -1,0 +1,1 @@
+export { default as useLocalAuth } from './localAuth.guard';
