@@ -11,7 +11,7 @@ const configureSwagger = (app: INestApplication): void => {
 
   // The main swagger docs options:
   const options = new DocumentBuilder()
-    .setTitle('LINKDEV - Microservices')
+    .setTitle('LINKDEV - Auth Microservice')
     .setDescription('API Documintation for Authentication service')
     .setVersion('1.0')
     .addBearerAuth({ in: 'header', type: 'http' })

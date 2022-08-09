@@ -32,7 +32,7 @@ export default class AuthController {
     @UseDynamicResponse()
     @useLocalAuth()
     @Post('signin')
-    async signin(@Req() {user}: RequestWithUser): Promise<SuccessResponseDTO<DTOs.SigninResponse>> {
+    async signin(@Body() signinDTO: DTOs.SigninBody, @Req() {user}: RequestWithUser): Promise<SuccessResponseDTO<DTOs.SigninResponse>> {
         return await this.authService.signin(user);
     }
 }

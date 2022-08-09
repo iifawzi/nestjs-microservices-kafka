@@ -1,5 +1,14 @@
 version: '3'
 services:
+  auth_service:
+    restart: always
+    build:
+      context: ./auth/
+      dockerfile: Dockerfile
+    depends_on:
+      - mongo
+    ports:
+      - '5002:5002'
   mongo:
     image: mongo
     restart: always
