@@ -20,7 +20,7 @@ export default class AuthService {
     ) { }
 
     private createAccessToken(user: UserInfoI): string {
-        this.logger.verbose(`getAccessTokenForUser service started`);
+        this.logger.log(`getAccessTokenForUser service started`);
         const accessToken = this.jwtService.sign({ email: user.email, ts: new Date().getTime() });
         return accessToken;
     }
