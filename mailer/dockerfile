@@ -26,6 +26,4 @@ COPY --from=development /usr/src/app/dist ./dist
 
 COPY .env.production .env
 
-EXPOSE 5002
-
 CMD ["node", "dist/main"]

@@ -1,6 +1,6 @@
 version: '3'
 services:
-############################# Servers #############################
+############################# Services #############################
   auth_service:
     restart: always
     build:
@@ -8,8 +8,17 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mongo
+      - kafka
+      - mailer_service
     ports:
       - '5002:5002'
+  mailer_service:
+    restart: always
+    build:
+      context: ./mailer/
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
 ############################# Databases #############################
   mongo:
     image: mongo
@@ -40,6 +49,7 @@ services:
     environment:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:SASL_PLAINTEXT,LISTENER_DOCKER_EXTERNAL:SASL_PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
       KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
