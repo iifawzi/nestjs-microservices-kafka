@@ -6,6 +6,8 @@ const configsSchema = Joi.object({
   KAFKA_CLIENT_USERNAME: Joi.string().required(),
   KAFKA_CLIENT_PASSWORD: Joi.string().required(),
   KAFKA_MAILCONSUMER_GROUPID: Joi.string().required(),
+  REDIS_HOST: Joi.string().required(),
+  REDIS_PORT: Joi.string().required(),
 });
 
 export default configsSchema;

@@ -21,11 +21,14 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/bull": "^0.6.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/microservices": "^9.0.8",
     "@nestjs/platform-express": "^9.0.0",
+    "@types/bull": "^3.15.9",
+    "bull": "^4.8.5",
     "joi": "^17.6.0",
     "kafkajs": "^2.1.0",
     "reflect-metadata": "^0.1.13",

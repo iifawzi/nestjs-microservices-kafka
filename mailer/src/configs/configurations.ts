@@ -9,6 +9,13 @@ export default () => ({
     },
     mailConsumer: {
       groupId: process.env.KAFKA_MAILCONSUMER_GROUPID
-    }
+    },
+  },
+  /**********************************
+  Redis
+  ***********************************/
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: process.env.REDIS_PORT
   }
 });

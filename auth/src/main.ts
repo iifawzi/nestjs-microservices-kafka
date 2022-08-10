@@ -9,7 +9,7 @@ import configureVersioning from './common/starter/configureVersioning';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
-  const PORT = configService.get<number>('PORT');
+  const PORT = +configService.get<number>('PORT');
   const GLOBAL_PREFIX = configService.get<string>('API_GLOBAL_PREFIX');
 
   // Configurations

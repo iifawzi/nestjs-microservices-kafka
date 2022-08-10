@@ -1,4 +1,4 @@
-import { Controller } from "@nestjs/common";
+import { Controller, Get } from "@nestjs/common";
 import { EventPattern } from "@nestjs/microservices";
 import { KAFKA_EVENTS } from "./events";
 import { UserCreatedEvent } from "./events/types/userCreated.event";

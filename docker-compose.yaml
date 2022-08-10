@@ -62,3 +62,11 @@ services:
       KAFKA_OPTS: -Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf
     volumes:
       - ./docker/kafka:/etc/kafka/
+############################# REDIS #############################
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - '6379:6379'
+    volumes: 
+      - ./cache:/data
