@@ -1,4 +1,4 @@
-import { Logger, Module } from "@nestjs/common";
+import { Inject, Logger, Module } from "@nestjs/common";
 import { BcryptHelpers } from "src/common/utilities";
 import { DatabaseModule } from "../database/mongodb";
 import AuthMongoDBRepository from "../database/mongodb/repositories/auth.repository";
@@ -6,26 +6,34 @@ import AuthController from "./auth.controller";
 import AuthService from "./auth.service";
 import { LocalStrategy } from "./passport/strategies";
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from "@nestjs/config";
+import { ConfigModule, ConfigService } from "@nestjs/config";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 
 @Module({
     imports: [
         DatabaseModule,
-        ClientsModule.register([
+        ClientsModule.registerAsync([
             {
                 name: 'MAIL_SERVICE',
-                transport: Transport.KAFKA,
-                options: {
-                    client: {
-                        clientId: 'auth',
-                        brokers: ['localhost:9092'],
+                inject: [ConfigService],
+                useFactory: async (configService: ConfigService) => ({
+                    transport: Transport.KAFKA,
+                    options: {
+                        client: {
+                            clientId: 'auth',
+                            brokers: ['localhost:9092'],
+                            sasl: {
+                                username: configService.get<string>('kafka.client.username'),
+                                password: configService.get<string>('kafka.client.password'),
+                                mechanism: 'plain'
+                            }
+                        },
+                        consumer: {
+                            groupId: 'mail-consumer'
+                        }
                     },
-                    consumer: {
-                        groupId: 'mail-consumer'
-                    }
-                }
-            }
+                }),
+            },
         ]),
         JwtModule.registerAsync({
             inject: [ConfigService],

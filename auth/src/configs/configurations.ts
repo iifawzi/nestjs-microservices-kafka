@@ -18,5 +18,14 @@ export default () => ({
   jwt: {
     secret: process.env.JWT_SECRET,
     expire: process.env.JWT_EXPIRE,
+  },
+  /**********************************
+  Kafka
+  ***********************************/
+  kafka: {
+    client: {
+      username: process.env.KAFKA_CLIENT_USERNAME,
+      password: process.env.KAFKA_CLIENT_PASSWORD,
+    }
   }
 });

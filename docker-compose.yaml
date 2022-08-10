@@ -1,5 +1,6 @@
 version: '3'
 services:
+############################# Servers #############################
   auth_service:
     restart: always
     build:
@@ -9,6 +10,7 @@ services:
       - mongo
     ports:
       - '5002:5002'
+############################# Databases #############################
   mongo:
     image: mongo
     restart: always
@@ -17,6 +19,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: root
     ports:
       - '27017:27017'
+############################# KAFKA #############################
   zookeeper:
     image: confluentinc/cp-zookeeper
     container_name: zookeeper
@@ -24,13 +27,31 @@ services:
       - 2181:2181
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_SASL_ENABLED: 'false'
+      KAFKA_OPTS: -Djava.security.auth.login.config=/etc/kafka/zookeeper_jaas.conf
+    volumes:
+      - ./docker/zookeeper:/etc/kafka/
+
   kafka:
     image: confluentinc/cp-kafka
     container_name: kafka
     ports:
       - 9092:9092
-    env_file:
-      - docker.env
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: LISTENER_DOCKER_INTERNAL://kafka:19092,LISTENER_DOCKER_EXTERNAL://${DOCKER_HOST_IP:-127.0.0.1}:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: LISTENER_DOCKER_INTERNAL:SASL_PLAINTEXT,LISTENER_DOCKER_EXTERNAL:SASL_PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: LISTENER_DOCKER_INTERNAL
+      KAFKA_SASL_MECHANISM_INTER_BROKER_PROTOCOL: PLAIN
+      KAFKA_SASL_ENABLED_MECHANISMS: PLAIN
+      KAFKA_LOG4J_ROOT_LOGLEVEL: ERROR
+      KAFKA_CONFLUENT_SUPPORT_METRICS_ENABLE: "false"
+      KAFKA_ALLOW_EVERYONE_IF_NO_ACL_FOUND: "true"
+      KAFKA_AUTHORIZER_CLASS_NAME: kafka.security.authorizer.AclAuthorizer
+      KAFKA_SUPER_USERS: User:admin
+      KAFKA_OPTS: -Djava.security.auth.login.config=/etc/kafka/kafka_server_jaas.conf
+    volumes:
+      - ./docker/kafka:/etc/kafka/
   # Kafka-ui is used for debugging and previewing the state of the broker. 
   kafka-ui:
     image: provectuslabs/kafka-ui
