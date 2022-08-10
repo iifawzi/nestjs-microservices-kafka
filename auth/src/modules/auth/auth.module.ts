@@ -1,4 +1,4 @@
-import { Inject, Logger, Module } from "@nestjs/common";
+import { Logger, Module } from "@nestjs/common";
 import { BcryptHelpers } from "src/common/utilities";
 import { DatabaseModule } from "../database/mongodb";
 import AuthMongoDBRepository from "../database/mongodb/repositories/auth.repository";
@@ -6,7 +6,7 @@ import AuthController from "./auth.controller";
 import AuthService from "./auth.service";
 import { LocalStrategy } from "./passport/strategies";
 import { JwtModule } from '@nestjs/jwt';
-import { ConfigModule, ConfigService } from "@nestjs/config";
+import { ConfigService } from "@nestjs/config";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 
 @Module({
