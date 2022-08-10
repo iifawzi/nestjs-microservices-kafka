@@ -10,6 +10,7 @@ import { userInfoSerializer } from "./serializers";
 import { JwtService } from "@nestjs/jwt";
 import { ClientKafka } from "@nestjs/microservices";
 import UserCreatedEvent from "./events/userCreated.event";
+import { KAFKA_EVENTS } from "./events";
 
 export default class AuthService {
 
@@ -49,7 +50,7 @@ export default class AuthService {
         const hashedPassword = await this.bcryptHelpers.hash(password);
         const data: UserDocument = { fullName, email, password: hashedPassword, isVerified: false, verificationCode: uuidv4() };
         await this.authRepository.createUser(data);
-        this.mailClient.emit('user_created', new UserCreatedEvent(data.fullName, data.email, data.verificationCode));
+        this.mailClient.emit(KAFKA_EVENTS.user_created, new UserCreatedEvent(data.fullName, data.email, data.verificationCode));
         return respondWith(HttpStatus.CREATED, 'User Registered successfully');
     }
 
