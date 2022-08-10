@@ -27,8 +27,8 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     }
 
     /*****************************************************
-  * handleDisconnect: 
-  ******************************************************/
+    * handleDisconnect: 
+    ******************************************************/
     handleDisconnect(client: SocketWithInfo): void {
         this.logger.log(`Client disconnected from the socket gateway: ${JSON.stringify({ userId: client.userId })}`);
         client.joinedRooms.forEach(room => {

@@ -1,17 +1,16 @@
 import * as Joi from "joi";
 import { AllowedEventsForEmit, eventInfo } from "../types";
 
-export interface MessagePayload {
+export interface isTypingPayload {
     roomName: string,
-    message: string
 }
 
-const messageEvent: eventInfo = {
-    type: AllowedEventsForEmit.message,
+const isTypingEvent: eventInfo = {
+    type: AllowedEventsForEmit.isTyping,
     payloadSchema: Joi.object({
         roomName: Joi.string().required(),
-        message: Joi.string().required(),
     })
 }
 
-export default messageEvent;
+
+export default isTypingEvent;

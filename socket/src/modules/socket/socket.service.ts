@@ -47,7 +47,6 @@ export default class SocketService {
     validateEvent = async (client: SocketWithInfo): Promise<any> => {
         return async (event: [string, any], next: (error?: Error) => void) => {
             try {
-                this.logger.verbose(`Event validation middleware has been started ${JSON.stringify(event)}`);
                 const { status, reason } = isEmitEventAllowed(event);
                 if (!status) {
                     this.logger.debug(reason);

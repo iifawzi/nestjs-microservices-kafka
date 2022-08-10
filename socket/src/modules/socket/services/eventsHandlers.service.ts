@@ -26,6 +26,9 @@ export default class EventsHandlersService {
             case AllowedEventsForEmit.message:
                 this.handleMessage(eventPayload, client);
                 break
+            case AllowedEventsForEmit.isTyping:
+                this.handleIsTyping(eventPayload, client);
+                break
             default:
                 this.logger.debug(`Unallowed event [${eventName}]-[${JSON.stringify(eventPayload)}]`);
                 break;
@@ -38,10 +41,14 @@ export default class EventsHandlersService {
         this.logger.log(`handleJoinRoom started with ${JSON.stringify(eventPayload)}`);
         client.join(eventPayload.name);
         client.joinedRooms.push(eventPayload.name);
-        client.to(eventPayload.name).emit(eventPayload.name, `${client.fullName} Joined the room!`);
+        client.to(eventPayload.name).emit(eventPayload.name, { message: `${client.fullName} Joined the room!`, user: 'system', type: 'welcome' });
     }
 
     handleMessage(eventPayload: MessagePayload, client: SocketWithInfo) {
         this.socketGateway.SocketServer.to(eventPayload.roomName).emit(eventPayload.roomName, { message: eventPayload.message, user: client.userId });
+    }
+
+    handleIsTyping(eventPayload: MessagePayload, client: SocketWithInfo) {
+        client.to(eventPayload.roomName).emit(eventPayload.roomName, { message: `${client.fullName} is typing!, user: 'system', type: 'typing'` });
     }
 }
