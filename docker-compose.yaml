@@ -19,6 +19,16 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - kafka
+  socket_service:
+    restart: always
+    build:
+      context: ./socket/
+      dockerfile: Dockerfile
+    depends_on:
+      - kafka
+      - auth_service
+    ports:
+      - '3001:3001'
 ############################# Databases #############################
   mongo:
     image: mongo

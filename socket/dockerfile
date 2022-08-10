@@ -1,0 +1,31 @@
+FROM node:14-alpine3.16 As development
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN yarn add rimraf
+
+RUN yarn install --frozen-lockfile
+
+COPY . .
+
+RUN yarn run build
+
+FROM node:14-alpine3.16 as production
+
+ARG NODE_ENV=production
+
+WORKDIR /usr/src/app
+
+COPY package*.json ./
+
+RUN yarn install --frozen-lockfile
+
+COPY --from=development /usr/src/app/dist ./dist
+
+COPY .env.production .env
+
+EXPOSE 3001
+
+CMD ["node", "dist/main"]

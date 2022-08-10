@@ -2,6 +2,10 @@ import * as Joi from 'joi';
 
 const configsSchema = Joi.object({
   /**********************************
+   Main Service Configurations 
+  ***********************************/
+   PORT: Joi.number(),
+  /**********************************
    Kafka
    ***********************************/
   KAFKA_BROKER: Joi.string().required(),

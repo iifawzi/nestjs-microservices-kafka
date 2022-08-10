@@ -2,7 +2,7 @@ export default () => ({
   /**********************************
    Main Service Configurations 
   ***********************************/
-  PORT: process.env.PORT || 3000,
+  PORT: process.env.PORT || 5002,
   API_GLOBAL_PREFIX: process.env.API_GLOBAL_PREFIX,
   SWAGGER_DOCS_PATH: process.env.SWAGGER_DOCS_PATH,
   SWAGGER_USERNAME: process.env.swaggerUsername,
