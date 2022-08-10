@@ -1,12 +1,12 @@
 import { Inject, Logger } from '@nestjs/common';
-import { OnGatewayInit, OnGatewayConnection, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
+import { OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect, WebSocketGateway, WebSocketServer } from '@nestjs/websockets';
 import { Server } from 'socket.io';
 import SocketService from './socket.service';
-import { SocketWithId } from './types';
+import { SocketWithInfo } from './types';
 
 
 @WebSocketGateway()
-export class SocketGateway implements OnGatewayInit, OnGatewayConnection {
+export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
     @WebSocketServer() SocketServer: Server;
     constructor(
         @Inject('SocketLogger') private readonly logger: Logger,
@@ -20,11 +20,19 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection {
         this.logger.log('[afterInit] cycle has been ended');
     }
 
-    async handleConnection(client: SocketWithId): Promise<void> {
-        this.logger.verbose(`handleConnection has started: ${client.id}`);
+    async handleConnection(client: SocketWithInfo): Promise<void> {
         this.logger.log(`New Client connected to the socket gateway successfully (${client.id})`);
-        this.logger.verbose(`handleConnection has ended: ${client.id}`);
         /**** Register client middleware to validate the events ****/
         client.use(await this.socketService.validateEvent(client));
+    }
+
+    /*****************************************************
+  * handleDisconnect: 
+  ******************************************************/
+    handleDisconnect(client: SocketWithInfo): void {
+        this.logger.log(`Client disconnected from the socket gateway: ${JSON.stringify({ userId: client.userId })}`);
+        client.joinedRooms.forEach(room => {
+            this.SocketServer.to(room).emit(room, `${client.fullName} Left the room!`);
+        })
     }
 }

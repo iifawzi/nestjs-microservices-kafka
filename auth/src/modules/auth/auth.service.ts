@@ -25,7 +25,7 @@ export default class AuthService {
 
     createAccessToken(user: UserInfoI): string {
         this.logger.log(`getAccessTokenForUser service started`);
-        const accessToken = this.jwtService.sign({ userId: user.userId, email: user.email, ts: new Date().getTime() });
+        const accessToken = this.jwtService.sign({ fullName: user.fullName, userId: user.userId, email: user.email, ts: new Date().getTime() });
         return accessToken;
     }
 
