@@ -20,9 +20,13 @@ export default class UsersSchema {
                 validator: {
                     $jsonSchema: {
                         bsonType: "object",
-                        required: ["email", "password", "isVerified", "verificationCode"],
+                        required: ["fullName","email", "password", "isVerified", "verificationCode"],
                         additionalProperties: false,
                         properties: {
+                            fullName: {
+                                bsonType: "string",
+                                description: "fullName must be a string and is required"
+                            },
                             email: {
                                 bsonType: "string",
                                 description: "email must be a string and is required"
