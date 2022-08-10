@@ -4,6 +4,12 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Transform } from 'class-transformer';
 
 export class SignupBody {
+
+    @IsNotEmpty()
+    @IsString()
+    @ApiProperty({ example: "Fawzi Essam" })
+    public fullName: string;
+
     @IsNotEmpty()
     @IsEmail()
     @Transform(({ value }) => value.toString().toLowerCase())

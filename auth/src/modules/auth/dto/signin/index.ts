@@ -16,6 +16,10 @@ export class SigninBody {
 }
 
 export class SigninResponse {
+    @ApiProperty({example: 'Fawzi Abdulfattah'})
+    @Expose()
+    public fullName: string
+
     @ApiProperty({example: 'iifawzie@gmail.com'})
     @Expose()
     public email: string
