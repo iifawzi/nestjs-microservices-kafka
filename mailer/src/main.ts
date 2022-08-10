@@ -9,7 +9,7 @@ async function bootstrap() {
       transport: Transport.KAFKA,
       options: {
         client: {
-          brokers: ['kafka:9092'],
+          brokers: ['kafka:19092'],
           sasl: {
             username: process.env.KAFKA_CLIENT_USERNAME,
             password: process.env.KAFKA_CLIENT_PASSWORD,
