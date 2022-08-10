@@ -18,7 +18,7 @@ const configsSchema = Joi.object({
    JWT
    ***********************************/
   JWT_SECRET: Joi.string().required(),
-  JWT_EXPIRE: Joi.number().required(),
+  JWT_EXPIRE: Joi.string().required(),
   /**********************************
    Kafka
    ***********************************/

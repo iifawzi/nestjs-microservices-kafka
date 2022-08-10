@@ -3,7 +3,7 @@ import { Socket } from 'socket.io';
 import { INestApplication, Logger } from "@nestjs/common";
 import { WsException } from "@nestjs/websockets";
 import { ConfigService } from '@nestjs/config';
-import { verify as jwtVerify } from 'jsonwebtoken'
+import * as jwt from 'jsonwebtoken'
 
 // This would help us authenticating the clients before even connecting to the socket gateway.
 export class socketIoAdapter extends IoAdapter {
@@ -17,7 +17,7 @@ export class socketIoAdapter extends IoAdapter {
 
     createIOServer(port: number, options?: any): any {
         port = this.configService.get<number>('socket.port');
-        const secretKey = this.configService.get<number>('usersAuth.secret');
+        const secretKey = this.configService.get<string>('usersAuth.secret');
         const server = super.createIOServer(port, options);
         server.use((socket: Socket, next: (error?: Error) => void) => {
             this.logger.verbose(`[createIOServer] - Socket auth middleware started`);
@@ -25,7 +25,7 @@ export class socketIoAdapter extends IoAdapter {
             // To get the token without bearer
             const authorizationToken = authHeader.split('bearer ')[1];
             try {
-                const isValidToken = jwtVerify(authorizationToken, secretKey);
+                const isValidToken = jwt.verify(authorizationToken, secretKey);
                 if (isValidToken) {
                     return next();
                 }
