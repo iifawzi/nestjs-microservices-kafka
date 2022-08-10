@@ -4,11 +4,12 @@ export default () => ({
   ***********************************/
   kafka: {
     client: {
+      broker: process.env.KAFKA_BROKER,
       username: process.env.KAFKA_CLIENT_USERNAME,
       password: process.env.KAFKA_CLIENT_PASSWORD,
     },
-    mailConsumer: {
-      groupId: process.env.KAFKA_MAILCONSUMER_GROUPID
+    authConsumer: {
+      groupId: process.env.KAFKA_AUTHCONSUMER_GROUPID
     }
   }
 });
