@@ -1,5 +1,7 @@
+import { UserCreatedEvent } from "./events/types/userCreated.event";
+
 export default class MailService {
-    handleEmail(data: any) {
-      // todo;
+    sendConfirmation(data: UserCreatedEvent) {
+        // todo;
     }
 }
