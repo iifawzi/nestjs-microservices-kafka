@@ -8,11 +8,12 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const configService = app.get(ConfigService);
   const PORT = +configService.get<number>('PORT');
+  const SOCKET_PORT = +configService.get<number>('socket.port');
 
   const bootstrapLogger = new Logger('Bootstrapping');
 
-  app.useWebSocketAdapter(new socketIoAdapter(app, new Logger(socketIoAdapter.name)));
+  app.useWebSocketAdapter(new socketIoAdapter(app, new Logger(socketIoAdapter.name), configService));
   await app.listen(PORT, '0.0.0.0');
-  bootstrapLogger.verbose(`Socket server is up and running on http://localhost:${PORT}`);
+  bootstrapLogger.verbose(`Socket server is up and running on ws://localhost:${SOCKET_PORT}`);
 }
 bootstrap();
