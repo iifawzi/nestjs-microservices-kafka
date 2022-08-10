@@ -8,6 +8,12 @@ const configsSchema = Joi.object({
   KAFKA_MAILCONSUMER_GROUPID: Joi.string().required(),
   REDIS_HOST: Joi.string().required(),
   REDIS_PORT: Joi.string().required(),
+  MAILER_HOST: Joi.string().required(),
+  MAILER_PORT: Joi.string().required(),
+  MAILER_FROM: Joi.string().required(),
+  MAILER_SUBJECT: Joi.string().required(),
+  MAILER_AUTH_USER: Joi.string().required(),
+  MAILER_AUTH_PASS: Joi.string().required(),
 });
 
 export default configsSchema;

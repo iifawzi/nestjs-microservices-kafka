@@ -17,5 +17,18 @@ export default () => ({
   redis: {
     host: process.env.REDIS_HOST,
     port: process.env.REDIS_PORT
+  },
+  /**********************************
+  Mailer
+  ***********************************/
+  mailer: {
+    host: process.env.MAILER_HOST,
+    port: process.env.MAILER_PORT,
+    fromMail: process.env.MAILER_FROM,
+    subject: process.env.MAILER_SUBJECT,
+    auth: {
+      user: process.env.MAILER_AUTH_USER,
+      pass: process.env.MAILER_AUTH_PASS,
+    }
   }
 });
