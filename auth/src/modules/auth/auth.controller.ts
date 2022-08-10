@@ -1,5 +1,4 @@
 import { Body, Controller, HttpStatus, Inject, Post, Req } from "@nestjs/common";
-import { MessagePattern } from "@nestjs/microservices";
 import { ApiTags } from "@nestjs/swagger";
 import { EmptyResponseDTO, SuccessResponseDTO } from "src/common/dto";
 import { UseDynamicResponse } from "src/common/interceptors";
@@ -35,11 +34,5 @@ export default class AuthController {
     @Post('signin')
     async signin(@Body() signinDTO: DTOs.SigninBody, @Req() { user }: RequestWithUser): Promise<SuccessResponseDTO<DTOs.SigninResponse>> {
         return await this.authService.signin(user);
-    }
-
-    @MessagePattern('verify_user')
-    verifyToken(data: {token: string}) {
-        console.log('token arrived', data.token);
-            return this.authService.verifyToken(data.token);
     }
 }

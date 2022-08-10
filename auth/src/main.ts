@@ -12,27 +12,6 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
   const PORT = +configService.get<number>('PORT');
   const GLOBAL_PREFIX = configService.get<string>('API_GLOBAL_PREFIX');
-  const KAFKA_USERNAME = configService.get<string>('kafka.client.username');
-  const KAFKA_PASSWORD = configService.get<string>('kafka.client.password');
-  const KAFKA_AUTHCONSUMER_GROUPID = configService.get<string>('kafka.client.authConsumer.groupId');
-  const KAFKA_BROKER = configService.get<string>('kafka.broker');
-
-  app.connectMicroservice({
-    transport: Transport.KAFKA,
-    options: {
-      client: {
-        brokers: [KAFKA_BROKER],
-        sasl: {
-          username: KAFKA_USERNAME,
-          password: KAFKA_PASSWORD,
-          mechanism: 'plain'
-        }
-      },
-      consumer: {
-        groupId: KAFKA_AUTHCONSUMER_GROUPID
-      }
-    }
-  });
 
   // Configurations
   const bootstrapLogger = new Logger('Bootstrapping');
@@ -44,7 +23,6 @@ async function bootstrap() {
   setGlobalPipes(app);
   configureSwagger(app);
 
-  await app.startAllMicroservices();
   await app.listen(PORT, '0.0.0.0');
   bootstrapLogger.verbose(`Application is up and running on http://localhost:${PORT}`);
 }

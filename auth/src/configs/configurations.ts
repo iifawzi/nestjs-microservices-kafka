@@ -31,8 +31,5 @@ export default () => ({
     mailConsumer: {
       groupId: process.env.KAFKA_MAILCONSUMER_GROUPID
     },
-    authConsumer: {
-      groupId: process.env.KAFKA_AUTHCONSUMER_GROUPID
-    }
   }
 });
