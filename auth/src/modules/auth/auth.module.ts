@@ -29,7 +29,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
                             }
                         },
                         consumer: {
-                            groupId: 'mail-consumer'
+                            groupId: configService.get<string>('kafka.mailConsumer.groupId'),
                         }
                     },
                 }),
