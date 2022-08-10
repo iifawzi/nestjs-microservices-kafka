@@ -8,6 +8,8 @@ import { BcryptHeleprsI } from "src/common/utilities";
 import * as DTOs from "./dto";
 import { userInfoSerializer } from "./serializers";
 import { JwtService } from "@nestjs/jwt";
+import { ClientKafka } from "@nestjs/microservices";
+import UserCreatedEvent from "./events/userCreated.event";
 
 export default class AuthService {
 
@@ -15,6 +17,7 @@ export default class AuthService {
         @Inject('AuthLogger') private readonly logger: Logger,
         @Inject('AuthRepository') private readonly authRepository: AuthRepository,
         @Inject('bcryptHelpers') private readonly bcryptHelpers: BcryptHeleprsI,
+        @Inject('MAIL_SERVICE') private readonly mailClient: ClientKafka,
         private jwtService: JwtService,
 
     ) { }
@@ -34,19 +37,19 @@ export default class AuthService {
         if (!isMatching) {
             return false;
         }
-        return userInfoSerializer(user.email, user.isVerified);
+        return userInfoSerializer(user.fullName, user.email, user.isVerified);
     }
 
-    async signup({ email, password }: UserRegisterInfo): Promise<SuccessResponseDTO<EmptyResponseDTO>> {
+    async signup({ email, password, fullName }: UserRegisterInfo): Promise<SuccessResponseDTO<EmptyResponseDTO>> {
         this.logger.log(`Signup - Request is created with email: [${email}]`);
         const emailExists = await this.authRepository.findByEmail(email);
         if (emailExists) {
             throw new ConflictException('Email is already registered');
         }
         const hashedPassword = await this.bcryptHelpers.hash(password);
-        const data: UserDocument = { email, password: hashedPassword, isVerified: false, activationCode: uuidv4() };
-        const user = await this.authRepository.createUser(data);
-        // TODO, KAFKA TO EMAIL SERVICE
+        const data: UserDocument = { fullName, email, password: hashedPassword, isVerified: false, verificationCode: uuidv4() };
+        await this.authRepository.createUser(data);
+        this.mailClient.emit('user_created', new UserCreatedEvent(data.fullName, data.email, data.verificationCode));
         return respondWith(HttpStatus.CREATED, 'User Registered successfully');
     }
 
