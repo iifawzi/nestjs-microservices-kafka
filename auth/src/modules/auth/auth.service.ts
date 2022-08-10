@@ -38,7 +38,7 @@ export default class AuthService {
         if (!isMatching) {
             return false;
         }
-        return userInfoSerializer(user.fullName, user.email, user.isVerified);
+        return userInfoSerializer(user._id, user.fullName, user.email, user.isVerified);
     }
 
     async signup({ email, password, fullName }: UserRegisterInfo): Promise<SuccessResponseDTO<EmptyResponseDTO>> {

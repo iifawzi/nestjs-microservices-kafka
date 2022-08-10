@@ -76,8 +76,8 @@ describe('AuthService', () => {
   describe('Signin Service', () => {
     it('Should return the accessToken with user info ', async () => {
       jest.spyOn(AuthService.prototype, 'createAccessToken').mockReturnValue('token');
-      const signin = await service.signin({ fullName: 'fawzi', email: 'iifawzie@gmail.com', isVerified: true });
-      expect(signin.data).toEqual({ fullName: "fawzi", email: 'iifawzie@gmail.com', isVerified: true, accessToken: 'token' });
+      const signin = await service.signin({ userId: '62f3c5f9b2a4ea1b226eed67', fullName: 'fawzi', email: 'iifawzie@gmail.com', isVerified: true });
+      expect(signin.data).toEqual({ "userId": "62f3c5f9b2a4ea1b226eed67", fullName: "fawzi", email: 'iifawzie@gmail.com', isVerified: true, accessToken: 'token' });
     })
   })
 });

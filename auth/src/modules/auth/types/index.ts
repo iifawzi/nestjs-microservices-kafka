@@ -1,6 +1,7 @@
 import { SignupBody } from "../dto"
 
 export interface UserInfoI {
+    userId: string,
     email: string,
     fullName: string,
     isVerified: boolean
