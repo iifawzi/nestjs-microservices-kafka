@@ -21,7 +21,7 @@ import { ClientsModule, Transport } from "@nestjs/microservices";
                     options: {
                         client: {
                             clientId: 'auth',
-                            brokers: ['kafka:19092'],
+                            brokers: [configService.get<string>('kafka.broker'),],
                             sasl: {
                                 username: configService.get<string>('kafka.client.username'),
                                 password: configService.get<string>('kafka.client.password'),

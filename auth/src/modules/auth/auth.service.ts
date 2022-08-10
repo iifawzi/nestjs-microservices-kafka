@@ -59,4 +59,14 @@ export default class AuthService {
         const accessToken = this.createAccessToken(user);
         return respondWith(HttpStatus.OK, 'Successfull login', { ...user, accessToken }, DTOs.SigninResponse);
     }
+
+    verifyToken(token: string) {
+        this.logger.log(`VerifyToken - service started`);
+        try {
+            return this.jwtService.verify(token);
+        } catch (err) {
+            this.logger.debug(`VerifyToken - unable to verify the token ${JSON.stringify(err)}`);
+            return false;
+        }
+    }
 }
