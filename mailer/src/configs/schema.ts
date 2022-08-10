@@ -5,9 +5,16 @@ const configsSchema = Joi.object({
    ***********************************/
   KAFKA_CLIENT_USERNAME: Joi.string().required(),
   KAFKA_CLIENT_PASSWORD: Joi.string().required(),
+  KAFKA_BROKER: Joi.string().required(),
   KAFKA_MAILCONSUMER_GROUPID: Joi.string().required(),
+  /**********************************
+   REDIS
+   ***********************************/
   REDIS_HOST: Joi.string().required(),
   REDIS_PORT: Joi.string().required(),
+  /**********************************
+   Mailer
+   ***********************************/
   MAILER_HOST: Joi.string().required(),
   MAILER_PORT: Joi.string().required(),
   MAILER_FROM: Joi.string().required(),

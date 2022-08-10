@@ -3,6 +3,7 @@ export default () => ({
   Kafka
   ***********************************/
   kafka: {
+    broker: process.env.KAFKA_BROKER,
     client: {
       username: process.env.KAFKA_CLIENT_USERNAME,
       password: process.env.KAFKA_CLIENT_PASSWORD,
