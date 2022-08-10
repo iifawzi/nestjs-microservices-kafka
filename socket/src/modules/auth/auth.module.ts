@@ -13,7 +13,7 @@ import { ConfigService } from "@nestjs/config";
                     options: {
                         client: {
                             clientId: 'auth',
-                            brokers: ['kafka:19092'],
+                            brokers: [configService.get<string>('kafka.broker'),],
                             sasl: {
                                 username: configService.get<string>('kafka.client.username'),
                                 password: configService.get<string>('kafka.client.password'),
@@ -21,7 +21,7 @@ import { ConfigService } from "@nestjs/config";
                             }
                         },
                         consumer: {
-                            groupId: configService.get<string>('kafka.mailConsumer.groupId'),
+                            groupId: configService.get<string>('kafka.authConsumer.groupId'),
                         }
                     },
                 }),

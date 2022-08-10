@@ -13,8 +13,9 @@ export class socketIoAdapter extends IoAdapter {
     ) {
         super();
         this.authService = app.get('AUTH_SERVICE');
+        this.authService.subscribeToResponseOf('verify_user');
     }
-    
+
     createIOServer(port: number, options?: any): any {
         const server = super.createIOServer(port, options);
         server.use((socket: Socket, next: (error?: Error) => void) => {
@@ -23,8 +24,13 @@ export class socketIoAdapter extends IoAdapter {
             // To get the token without bearer
             const authorizationToken = authHeader.split('bearer ')[1];
             try {
-                // TODO:: VERIFY USING KAFKA BY COMMUNICATING WITH AUTH. 
-                const isValidToken = true
+                let isValidToken = true
+                this.authService
+                    .send('verify_user', { token: authorizationToken})
+                    .subscribe((isVerified) => {
+                        isValidToken = Boolean(isVerified)
+                    })
+
                 if (isValidToken) {
                     return next();
                 }
