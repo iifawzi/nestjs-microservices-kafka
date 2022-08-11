@@ -1,4 +1,4 @@
-import { ConflictException, HttpStatus, Inject, Logger } from "@nestjs/common";
+import { ConflictException, ForbiddenException, HttpStatus, Inject, Logger, UnauthorizedException } from "@nestjs/common";
 import { EmptyResponseDTO, SuccessResponseDTO } from "src/common/dto";
 import respondWith from "src/common/helpers/respondWith";
 import { AuthRepository } from "./contracts";
@@ -58,5 +58,26 @@ export default class AuthService {
         this.logger.log(`Signin - Request is created with email: [${user.email}]`);
         const accessToken = this.createAccessToken(user);
         return respondWith(HttpStatus.OK, 'Successfull login', { ...user, accessToken }, DTOs.SigninResponse);
+    }
+
+    async verifyEmail(verifyDTO: DTOs.VerifyBody): Promise<SuccessResponseDTO<EmptyResponseDTO>> {
+        this.logger.log(`verifyEmail - Request is created with token: [${verifyDTO.token}]`);
+        const user = await this.authRepository.findByToken(verifyDTO.token);
+        if (!user) {
+            this.logger.debug(`verifyEmail - token not found [${verifyDTO.token}]`);
+            throw new ForbiddenException('Token is  invalid');
+        }
+
+        const isMatching = await this.bcryptHelpers.verify(verifyDTO.password, user.password);
+        if (!isMatching) {
+            throw new UnauthorizedException('You\'re not authorized to perform this action');
+        }
+
+        const updatedUser = await this.authRepository.verifyEmail(verifyDTO.token);
+        if (!updatedUser.value) {
+            this.logger.debug(`verifyEmail - Email is already verified [${verifyDTO.token}]`);
+            throw new ConflictException('Email is already verified');
+        }
+        return respondWith(HttpStatus.OK, 'Email have been verified successfully');
     }
 }

@@ -16,4 +16,9 @@ export default class LoggerMock implements LoggerService {
     verbose(message: any, ...optionalParams: any[]) {
         return;
     }
+
+    debug(message: any, ...optionalParams: any[]) {
+        return;
+    }
+    
 }

@@ -35,4 +35,16 @@ export default class AuthController {
     async signin(@Body() signinDTO: DTOs.SigninBody, @Req() { user }: RequestWithUser): Promise<SuccessResponseDTO<DTOs.SigninResponse>> {
         return await this.authService.signin(user);
     }
+
+    @DescribeAPI('Verify email API')
+    @DocuementSuccessResponse(HttpStatus.OK, 'Email have been verified successfully', DTOs.SigninResponse)
+    @DocuementErrorResponse(HttpStatus.BAD_REQUEST, ['Validation Error 1', 'Validation Error 2'], 'Bad Request')
+    @DocuementErrorResponse(HttpStatus.FORBIDDEN, 'Token is not valid', 'FORBIDDEN')
+    @DocuementErrorResponse(HttpStatus.UNAUTHORIZED, 'You\'re not authorized to perform this action', 'UNAUTHORIZED')
+    @DocuementErrorResponse(HttpStatus.CONFLICT, 'Email is already verified', 'CONFLICT')
+    @UseDynamicResponse()
+    @Post('verifyEmail')
+    async verifyEmail(@Body() verifyDTO: DTOs.VerifyBody): Promise<SuccessResponseDTO<EmptyResponseDTO>> {
+        return await this.authService.verifyEmail(verifyDTO);
+    }
 }
