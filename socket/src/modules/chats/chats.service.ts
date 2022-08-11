@@ -1,5 +1,6 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { ChatsRepository } from "./contracts";
+import { MessageLogI } from "./types";
 
 @Injectable()
 export default class ChatsService {
@@ -12,8 +13,8 @@ export default class ChatsService {
         return await this.chatsRepository.createChat(roomName);
     }
 
-    async addMessage(roomName: string, message: string, userName, userId: string): Promise<any> {
-        return await this.chatsRepository.addMessage(roomName, message, userName, userId);
+    async addMessage(roomName: string, messageInfo: MessageLogI): Promise<any> {
+        return await this.chatsRepository.addMessage(roomName, messageInfo);
     }
 
     async getRoomInfo(roomName: string): Promise<any> {

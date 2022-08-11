@@ -15,6 +15,11 @@ const configsSchema = Joi.object({
    Socket
    ***********************************/
   SOCKET_PORT: Joi.string().required(),
+  /**********************************
+   Redis
+   ***********************************/
+   REDIS_HOST: Joi.string().required(),
+   REDIS_PORT: Joi.string().required()
 });
 
 export default configsSchema;

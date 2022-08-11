@@ -32,7 +32,7 @@ export class SocketGateway implements OnGatewayInit, OnGatewayConnection, OnGate
     handleDisconnect(client: SocketWithInfo): void {
         this.logger.log(`Client disconnected from the socket gateway: ${JSON.stringify({ userId: client.userId })}`);
         client.joinedRooms.forEach(room => {
-            this.SocketServer.to(room).emit(room, `${client.fullName} Left the room!`);
+            this.SocketServer.to(room).emit(room, `${client.user} Left the room!`);
         })
     }
 }

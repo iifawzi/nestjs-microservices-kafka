@@ -13,8 +13,8 @@ export default class ChatsMongoDBRepository implements ChatsRepository {
         await this.chatsCollection.insertOne({ roomName, messages: [] });
     }
 
-    async addMessage(roomName: string, message: string, user: string, userId: string): Promise<any> {
-        await this.chatsCollection.updateOne({ roomName }, { $push: { messages: { message, user, userId, created_at: new Date() } } })
+    async addMessage(roomName: string, messageInfo: MessageLogI): Promise<any> {
+        await this.chatsCollection.updateOne({ roomName }, { $push: { messages: messageInfo } })
         return true;
     }
 

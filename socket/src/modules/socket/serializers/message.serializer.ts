@@ -1,7 +1,5 @@
-export default function serializeSocketMessage(message: string, user: string, fullName: string) {
-    return {
-        message,
-        user,
-        fullName
-    }
+import { MessageLogI } from "src/modules/chats/types";
+
+export default function serializeSocketMessage(messageInfo: MessageLogI) {
+    return messageInfo
 }

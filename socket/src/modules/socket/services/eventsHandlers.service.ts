@@ -10,12 +10,14 @@ import serializeSocketMessage from "../serializers/message.serializer";
 import { SocketGateway } from "../socket.gateway";
 import { AllowedEventsForEmit, SocketWithInfo } from "../types";
 import { ChatDocumentI, MessageLogI } from "src/modules/chats/types"
+import RedisService from "src/modules/redis/redis.service";
 
 @Injectable()
 export default class EventsHandlersService {
     constructor(
         @Inject('SocketLogger') private readonly logger: Logger,
         private readonly chatsService: ChatsService,
+        private readonly redisService: RedisService,
         private socketGateway: SocketGateway,
     ) { }
 
@@ -50,32 +52,34 @@ export default class EventsHandlersService {
         const messagesInformation: ChatDocumentI = await this.chatsService.getRoomInfo(eventPayload.name);
         if (!messagesInformation) {
             this.chatsService.createChat(eventPayload.name)
-        } else {
-            // Refactor this part
-            const isCached = false;
-            if (!isCached) {
-                messagesInformation.messages.forEach((messageInfo: MessageLogI) => {
-                    client.emit(eventPayload.name, serializeSocketMessage(messageInfo.message, messageInfo.user, messageInfo.fullName));
-                    // todo add the last 10 to cache
-                });
-            } else {
-                // load from the cache
-            }
+            return;
         }
 
+        const isCached = await this.redisService.checkIfExist(eventPayload.name);
+        if (!isCached) {
+            await this.redisService.addChatHistory(eventPayload.name, messagesInformation.messages);
+        }
 
-        client.to(eventPayload.name).emit(eventPayload.name, { message: `${client.fullName} Joined the room!`, user: 'system', type: 'welcome' });
+        const messages: any = await this.redisService.getChatHistory(eventPayload.name);
+
+        messages.forEach(async (messageInfo: MessageLogI) => {
+            client.emit(eventPayload.name, serializeSocketMessage(messageInfo));
+        });
+
+        client.to(eventPayload.name).emit(eventPayload.name, { message: `${client.user} Joined the room!`, user: 'system', type: 'welcome' });
     }
 
     async handleMessage(eventPayload: MessagePayload, client: SocketWithInfo) {
         if (client.joinedRooms.filter(room => room === eventPayload.roomName).length) {
-            this.chatsService.addMessage(eventPayload.roomName, eventPayload.message, client.fullName, client.userId);
-            // todo: add to cache
-            this.socketGateway.SocketServer.to(eventPayload.roomName).emit(eventPayload.roomName, serializeSocketMessage(eventPayload.message, client.userId, client.fullName));
+            const createdAt = new Date();
+            const messageData = serializeSocketMessage({ message: eventPayload.message, user: client.user, userId: client.userId, created_at: createdAt });
+            this.chatsService.addMessage(eventPayload.roomName, messageData)
+            this.redisService.addMessage(eventPayload.roomName, messageData);
+            this.socketGateway.SocketServer.to(eventPayload.roomName).emit(eventPayload.roomName, serializeSocketMessage({ message: eventPayload.message, user: client.user, userId: client.userId }));
         }
     }
 
     handleIsTyping(eventPayload: MessagePayload, client: SocketWithInfo) {
-        client.to(eventPayload.roomName).emit(`${eventPayload.roomName}-typing`, { message: `${client.fullName} is typing!, user: 'system', type: 'typing'` });
+        client.to(eventPayload.roomName).emit(`${eventPayload.roomName}-typing`, { message: `${client.user} is typing!, user: 'system', type: 'typing'` });
     }
 }

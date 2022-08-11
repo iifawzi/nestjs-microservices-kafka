@@ -28,7 +28,7 @@ export default class SocketService {
                 return next(new WsException('You\'re not authorized, we\'re not able to identify your identity'));
             } else {
                 client.userId = userData.userId;
-                client.fullName = userData.fullName;
+                client.user = userData.fullName;
                 client.joinedRooms = [];
                 this.logger.debug(`Client (${client.id}): identity was successfully identified. userId: (${client.userId})`);
                 return next();
