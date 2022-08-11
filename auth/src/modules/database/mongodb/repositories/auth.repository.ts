@@ -14,7 +14,7 @@ export default class AuthMongoDBRepository implements AuthRepository {
     }
 
     async findByToken(token: string): Promise<any> {
-        const user = await this.authCollection.findOne({ token: token });
+        const user = await this.authCollection.findOne({ verificationCode: token });
         return user;
     }
 

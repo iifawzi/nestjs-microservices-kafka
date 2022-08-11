@@ -91,7 +91,7 @@ describe('AuthService', () => {
 
     it('Should throw forbidden if token is invalid (not found) ', async () => {
       const verifyService = service.verifyEmail({ password: '12Qwaszxerdfcv', passwordConfirmation: '12Qwaszxerdfcv', token: 'wrong' });
-      await expect(verifyService).rejects.toThrow('Token is  invalid')
+      await expect(verifyService).rejects.toThrow('Token is invalid')
     })
 
     it('Should throw Conflict if email is already verified', async () => {

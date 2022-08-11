@@ -41,7 +41,7 @@ export default class AuthMockRepository implements AuthRepository {
     async verifyEmail(token: string): Promise<any> {
         const user = this.users.filter(user => user.verificationCode === token && user.isVerified === false)[0];
         return {
-            value: user
+            modifiedCount: user
         };
     }
 

@@ -65,7 +65,7 @@ export default class AuthService {
         const user = await this.authRepository.findByToken(verifyDTO.token);
         if (!user) {
             this.logger.debug(`verifyEmail - token not found [${verifyDTO.token}]`);
-            throw new ForbiddenException('Token is  invalid');
+            throw new ForbiddenException('Token is invalid');
         }
 
         const isMatching = await this.bcryptHelpers.verify(verifyDTO.password, user.password);
@@ -74,7 +74,7 @@ export default class AuthService {
         }
 
         const updatedUser = await this.authRepository.verifyEmail(verifyDTO.token);
-        if (!updatedUser.value) {
+        if (!updatedUser.modifiedCount) {
             this.logger.debug(`verifyEmail - Email is already verified [${verifyDTO.token}]`);
             throw new ConflictException('Email is already verified');
         }
