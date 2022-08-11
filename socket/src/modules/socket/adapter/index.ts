@@ -21,11 +21,15 @@ export class socketIoAdapter extends IoAdapter {
         const server = super.createIOServer(port, options);
         server.use((socket: Socket, next: (error?: Error) => void) => {
             this.logger.verbose(`[createIOServer] - Socket auth middleware started`);
-            const authHeader = socket.handshake.headers.authorization;
+            const authHeader: string = socket.handshake.query.authorization as string
             // To get the token without bearer
+            if (!authHeader) {
+                this.logger.debug(`[createIOServer] - Client is not authoirzed, authorization not found ${JSON.stringify(authHeader)}`);
+                return next(new WsException('You\'re not authorized'));
+            }
             const authorizationToken = authHeader.split('bearer ')[1];
             try {
-                const isValidToken = jwt.verify(authorizationToken, secretKey);
+                const isValidToken = jwt.verify(authorizationToken, secretKey, { ignoreExpiration: false });
                 if (isValidToken) {
                     return next();
                 }

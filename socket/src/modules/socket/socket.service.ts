@@ -10,7 +10,7 @@ import ChatsService from "../chats/chats.service";
 export default class SocketService {
     constructor(
         @Inject('SocketLogger') private readonly logger: Logger,
-        @Inject(forwardRef(()=> EventsHandlersService)) private readonly eventsHandlersService: EventsHandlersService,
+        @Inject(forwardRef(() => EventsHandlersService)) private readonly eventsHandlersService: EventsHandlersService,
         private readonly chatsService: ChatsService,
     ) { }
 
@@ -21,7 +21,8 @@ export default class SocketService {
     authenticateClient = async (client: SocketWithInfo, next: (error?: Error) => void): Promise<void> => {
         try {
             this.logger.log(`Client is connecting to the socket gateway ${client.id}`);
-            const AuthorizationToken = client.handshake.headers.authorization.split('bearer ')[1];
+            const authHeader: string = client.handshake.query.authorization as string
+            const AuthorizationToken = authHeader.split('bearer ')[1];
             const userData: any = jwt.decode(AuthorizationToken)
             if (!userData) {
                 this.logger.debug(`Something wrong happened while verifiying the identity of the Client: ${client.id}: ${userData}`);
