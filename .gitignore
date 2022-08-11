@@ -1,6 +1,5 @@
 **/node_modules
 **/dist
 **/.env
-**/.env.production
 **/.DS_STORE
 **/cache
