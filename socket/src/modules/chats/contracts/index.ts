@@ -1,0 +1,1 @@
+export { default as ChatsRepository } from "./chats.contract"

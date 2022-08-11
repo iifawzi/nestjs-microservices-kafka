@@ -7,6 +7,11 @@ export default () => ({
     secret: process.env.USERS_JWT_SECRET,
   },
   /**********************************
+   Database
+   ***********************************/
+  MONGODB_URI: process.env.mongodbURI,
+  DB_NAME: process.env.dbname,
+  /**********************************
   SOCKET
   ***********************************/
   socket: {

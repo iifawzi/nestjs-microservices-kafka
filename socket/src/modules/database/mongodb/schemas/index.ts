@@ -1,0 +1,1 @@
+export { default as ChatsSchema } from "./chats.schema"

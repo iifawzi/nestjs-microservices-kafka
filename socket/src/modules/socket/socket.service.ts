@@ -4,12 +4,14 @@ import { SocketWithInfo } from "./types";
 import * as jwt from 'jsonwebtoken'
 import { isEmitEventAllowed } from "./utils";
 import { EventsHandlersService } from "./services";
+import ChatsService from "../chats/chats.service";
 
 @Injectable()
 export default class SocketService {
     constructor(
         @Inject('SocketLogger') private readonly logger: Logger,
         @Inject(forwardRef(()=> EventsHandlersService)) private readonly eventsHandlersService: EventsHandlersService,
+        private readonly chatsService: ChatsService,
     ) { }
 
     /*****************************************************

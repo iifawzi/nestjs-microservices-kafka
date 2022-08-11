@@ -1,10 +1,11 @@
 import { Logger, Module } from "@nestjs/common";
+import ChatsModule from "../chats/chats.module";
 import EventsHandlersService from "./services/eventsHandlers.service";
 import { SocketGateway } from "./socket.gateway";
 import SocketService from "./socket.service";
 
 @Module({
-    imports: [],
+    imports: [ChatsModule],
     providers: [
         {
             provide: 'SocketLogger',
