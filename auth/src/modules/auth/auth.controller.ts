@@ -1,4 +1,4 @@
-import { Body, Controller, HttpStatus, Inject, Post, Req } from "@nestjs/common";
+import { Body, Controller, HttpStatus, Inject, Patch, Post, Req } from "@nestjs/common";
 import { ApiTags } from "@nestjs/swagger";
 import { EmptyResponseDTO, SuccessResponseDTO } from "src/common/dto";
 import { UseDynamicResponse } from "src/common/interceptors";
@@ -43,7 +43,7 @@ export default class AuthController {
     @DocuementErrorResponse(HttpStatus.UNAUTHORIZED, 'You\'re not authorized to perform this action', 'UNAUTHORIZED')
     @DocuementErrorResponse(HttpStatus.CONFLICT, 'Email is already verified', 'CONFLICT')
     @UseDynamicResponse()
-    @Post('verifyEmail')
+    @Patch('verifyEmail')
     async verifyEmail(@Body() verifyDTO: DTOs.VerifyBody): Promise<SuccessResponseDTO<EmptyResponseDTO>> {
         return await this.authService.verifyEmail(verifyDTO);
     }
