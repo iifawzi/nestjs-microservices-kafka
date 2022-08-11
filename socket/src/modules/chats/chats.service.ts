@@ -15,4 +15,8 @@ export default class ChatsService {
     async addMessage(roomName: string, message: string, userName, userId: string): Promise<any> {
         return await this.chatsRepository.addMessage(roomName, message, userName, userId);
     }
+
+    async getRoomInfo(roomName: string): Promise<any> {
+        return await this.chatsRepository.getRoomInfo(roomName);
+    }
 }
