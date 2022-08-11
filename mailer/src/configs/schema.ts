@@ -1,6 +1,10 @@
 import * as Joi from 'joi';
 const configsSchema = Joi.object({
   /**********************************
+   Main Service Configurations 
+   ***********************************/
+   VERIFY_URL: Joi.string().required(),
+  /**********************************
    Kafka
    ***********************************/
   KAFKA_CLIENT_USERNAME: Joi.string().required(),

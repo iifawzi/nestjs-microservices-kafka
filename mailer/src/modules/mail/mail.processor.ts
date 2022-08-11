@@ -40,7 +40,7 @@ export class MailProcessor {
         from: this.configService.get('mailer.fromMail'),
         subject: this.configService.get('mailer.subject'),
         template: './confirmation',
-        context: { verificationCode: job.data.verificationCode },
+        context: { verify_url: this.configService.get<string>('VERIFY_URL') + job.data.verificationCode },
       });
     } catch {
       this.logger.error(`Failed to send confirmation email to '${job.data.email}'`);
