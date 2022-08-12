@@ -26,7 +26,7 @@ export default class RedisService {
 
 
     async addChatHistory(roomName: string, messages: MessageLogI[]) {
-        return await this.cacheClient.set(`mes-${roomName}`, JSON.stringify(messages));
+        return await this.cacheClient.set(`mes-${roomName}`, JSON.stringify(messages), { ttl: 3600 });
     }
 
     async getChatHistory(roomName: string): Promise<MessageLogI[]> {
