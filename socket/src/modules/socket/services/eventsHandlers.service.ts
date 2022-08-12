@@ -80,6 +80,6 @@ export default class EventsHandlersService {
     }
 
     handleIsTyping(eventPayload: MessagePayload, client: SocketWithInfo) {
-        client.to(eventPayload.roomName).emit(`${eventPayload.roomName}-typing`, { message: `${client.user} is typing!, user: 'system', type: 'typing'` });
+        client.to(eventPayload.roomName).emit(`${eventPayload.roomName}-typing`, { message: `${client.user} is typing!`, user: 'system', type: 'typing' });
     }
 }
