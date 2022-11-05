@@ -5,6 +5,7 @@ import { BullModule } from '@nestjs/bull';
 import { MAIL_QUEUE } from "./constants";
 import { MailProcessor } from "./mail.processor";
 import MailingModule from "../mailing/mailing.module";
+import { QueueHealthIndicator } from "./health";
 
 @Module({
     imports: [
@@ -15,6 +16,7 @@ import MailingModule from "../mailing/mailing.module";
     ],
     controllers: [MailController],
     providers: [
+        QueueHealthIndicator,
         MailService,
         MailProcessor,
         {
@@ -22,5 +24,6 @@ import MailingModule from "../mailing/mailing.module";
             useFactory: (): Logger => new Logger(MailModule.name)
         },
     ],
+    exports: [QueueHealthIndicator]
 })
 export default class MailModule { }

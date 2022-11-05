@@ -29,6 +29,7 @@
     "@nestjs/passport": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/swagger": "^6.0.5",
+    "@nestjs/terminus": "^9.1.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/uuid": "^8.3.4",
     "auth": "^0.0.9",

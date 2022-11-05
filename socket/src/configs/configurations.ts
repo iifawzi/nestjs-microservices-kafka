@@ -15,7 +15,8 @@ export default () => ({
   SOCKET
   ***********************************/
   socket: {
-    port: process.env.SOCKET_PORT
+    port: process.env.SOCKET_PORT,
+    auth: process.env.SOCKET_AUTH
   },
   /**********************************
   redis

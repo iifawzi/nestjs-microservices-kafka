@@ -35,6 +35,9 @@ export default class EventsHandlersService {
             case AllowedEventsForEmit.isTyping:
                 this.handleIsTyping(eventPayload, client);
                 break
+            case AllowedEventsForEmit.healthCheck:
+                this.handleHealthCheck(client);
+                break
             default:
                 this.logger.debug(`Unallowed event [${eventName}]-[${JSON.stringify(eventPayload)}]`);
                 break;
@@ -81,5 +84,10 @@ export default class EventsHandlersService {
 
     handleIsTyping(eventPayload: MessagePayload, client: SocketWithInfo) {
         client.to(eventPayload.roomName).emit(`${eventPayload.roomName}-typing`, { message: `${client.user} is typing!`, user: 'system', type: 'typing' });
+    }
+
+    handleHealthCheck(client: SocketWithInfo) {
+        client.emit(AllowedEventsForEmit.healthCheck, { message: 'OK' });
+        client.disconnect();
     }
 }

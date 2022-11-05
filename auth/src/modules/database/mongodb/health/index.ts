@@ -1,0 +1,1 @@
+export { default as MongoDBHealthIndicator } from "./mongodb.health"

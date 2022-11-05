@@ -19,6 +19,8 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - kafka
+    ports:
+      - '8787:8787'
   socket_service:
     restart: always
     build:

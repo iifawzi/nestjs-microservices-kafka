@@ -15,6 +15,7 @@ const configsSchema = Joi.object({
    Socket
    ***********************************/
   SOCKET_PORT: Joi.string().required(),
+  SOCKET_AUTH: Joi.string().required(),
   /**********************************
    Redis
    ***********************************/

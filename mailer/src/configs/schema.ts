@@ -4,6 +4,7 @@ const configsSchema = Joi.object({
    Main Service Configurations 
    ***********************************/
    VERIFY_URL: Joi.string().required(),
+   PORT: Joi.string().required(),
   /**********************************
    Kafka
    ***********************************/

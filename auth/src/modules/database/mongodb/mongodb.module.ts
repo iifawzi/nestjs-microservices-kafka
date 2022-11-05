@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MongoClient, Db } from 'mongodb';
+import { MongoDBHealthIndicator } from './health';
 import UsersSchema from './schemas/users.schema';
 
 @Module({
     providers: [
+        MongoDBHealthIndicator,
         {
             provide: 'DatabaseClient',
             inject: [ConfigService],
@@ -19,6 +21,6 @@ import UsersSchema from './schemas/users.schema';
         },
         UsersSchema
     ],
-    exports: ['DatabaseClient']
+    exports: ['DatabaseClient', MongoDBHealthIndicator]
 })
 export class DatabaseModule { }

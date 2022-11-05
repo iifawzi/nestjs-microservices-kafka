@@ -26,4 +26,6 @@ COPY --from=development /usr/src/app/dist ./dist
 
 COPY .env.production .env
 
+EXPOSE 8787
+
 CMD ["node", "dist/main"]

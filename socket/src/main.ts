@@ -14,6 +14,6 @@ async function bootstrap() {
 
   app.useWebSocketAdapter(new socketIoAdapter(app, new Logger(socketIoAdapter.name), configService));
   await app.listen(PORT, '0.0.0.0');
-  bootstrapLogger.verbose(`Socket server is up and running on ws://localhost:${SOCKET_PORT}`);
+  bootstrapLogger.verbose(`Server is running on http://localhost:${PORT} and Socket is up on ws://localhost:${SOCKET_PORT}`);
 }
 bootstrap();

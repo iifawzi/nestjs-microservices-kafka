@@ -3,6 +3,7 @@ enum AllowedEventsForEmit {
     'join_room' = 'join_room',
     'message' = 'message',
     'isTyping' = 'isTyping',
+    'healthCheck' = 'healthCheck'
 }
 
 

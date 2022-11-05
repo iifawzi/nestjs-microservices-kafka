@@ -3,6 +3,7 @@ export default () => ({
   Main Service Configurations 
   ***********************************/
   verifyUrl: process.env.VERIFY_URL,
+  PORT: process.env.PORT,
   /**********************************
   Kafka
   ***********************************/
